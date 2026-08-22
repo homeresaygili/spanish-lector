@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no" />
+<title>Ledger</title>
+
+<!-- Standalone app mode: no Safari chrome, no address bar -->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Ledger" />
+<meta name="theme-color" content="#111E19" />
+<link rel="apple-touch-icon" href="data:image/png;base64,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" />
+<link rel="icon" href="data:image/png;base64,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" />
+<link rel="manifest" href='data:application/manifest+json,{"name":"Habit Ledger","short_name":"Ledger","start_url":".","display":"standalone","background_color":"%23111E19","theme_color":"%23111E19"}' />
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #111E19;
+    --bg-card: #192823;
+    --hairline: rgba(201,166,105,0.16);
+    --hairline-strong: rgba(201,166,105,0.32);
+    --amber: #C68B3E;
+    --amber-bright: #E0A94F;
+    --parchment: #EDE6D6;
+    --muted: #8FA093;
+    --muted-dark: #5E6E63;
+    --rust: #B0614B;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin:0; padding:0; background: var(--bg); color: var(--parchment); font-family:'Inter',sans-serif; }
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    -webkit-text-size-adjust: 100%;
+    overscroll-behavior-y: none;
+  }
+  /* Stop long-press text selection making it feel like a webpage */
+  body { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+  input, select { -webkit-user-select: text; user-select: text; }
+  button, input, select { font-family: inherit; }
+  input:focus, select:focus, button:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+  ::selection { background: var(--amber); color: var(--bg); }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+  .wrap { max-width: 480px; margin: 0 auto; padding: 28px 20px 80px; }
+  .eyebrow { font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.18em; color:var(--amber); text-transform:uppercase; margin-bottom:6px; }
+  .title { font-family:'Fraunces',serif; font-size:27px; font-weight:600; line-height:1.1; }
+  .header-row { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:4px; gap: 10px; }
+  .btn-pill { display:flex; align-items:center; gap:6px; border-radius:999px; padding:7px 12px; font-size:12px; font-weight:500; cursor:pointer; border:1px solid var(--hairline); background:transparent; color:var(--muted); margin-top:4px; flex-shrink: 0; }
+  .btn-pill.active { background:var(--amber); color:var(--bg); border-color:var(--amber); }
+  .tabs { display:flex; gap:4px; margin-top:18px; margin-bottom:16px; background:rgba(143,160,147,0.08); padding:3px; border-radius:12px; width:fit-content; }
+  .tab { padding:6px 14px; border-radius:9px; border:none; cursor:pointer; background:transparent; color:var(--muted); font-size:12.5px; font-weight:500; text-transform:capitalize; }
+  .tab.active { background:var(--amber); color:var(--bg); }
+  .nav-row { display:flex; align-items:center; gap:10px; margin-bottom:20px; }
+  .nav-btn { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:rgba(143,160,147,0.1); border:1px solid var(--hairline); cursor:pointer; color:var(--parchment); font-size:16px; }
+  .nav-btn:disabled { color: var(--muted-dark); cursor:default; }
+  .jump { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--amber); background:transparent; border:none; cursor:pointer; letter-spacing:0.05em; }
+  .strip { display:flex; align-items:flex-end; gap:4px; height:40px; margin-bottom:28px; border-bottom:1px solid var(--hairline); padding-bottom:10px; }
+  .strip-bar-btn { flex:1; height:100%; display:flex; align-items:flex-end; background:transparent; border:none; cursor:pointer; padding:0; }
+  .strip-bar { width:100%; border-radius:2px; transition: all .2s ease; }
+  .section { margin-bottom:20px; }
+  .section-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; padding-left:2px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:var(--muted); text-transform:uppercase; }
+  .card { background:var(--bg-card); border-radius:16px; border:1px solid var(--hairline); overflow:hidden; }
+  .item-row { display:flex; align-items:center; justify-content:space-between; padding:14px 16px; border-bottom:1px solid var(--hairline); }
+  .item-row:last-child { border-bottom:none; }
+  .item-label { font-size:14.5px; font-weight:500; }
+  .toggle { width:46px; height:26px; border-radius:999px; position:relative; cursor:pointer; border:1px solid var(--hairline); background:rgba(143,160,147,0.18); flex-shrink:0; padding: 0; }
+  .toggle.on { background:var(--amber); border-color:var(--amber-bright); }
+  .toggle .thumb { width:18px; height:18px; border-radius:50%; background:var(--parchment); position:absolute; top:3px; left:3px; transition:left .15s ease; }
+  .toggle.on .thumb { background:var(--bg); left:24px; }
+  .stepper { display:flex; align-items:center; gap:10px; }
+  .step-btn { width:26px; height:26px; border-radius:50%; border:1px solid var(--hairline); background:rgba(143,160,147,0.1); color:var(--parchment); font-size:16px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+  .step-val { font-family:'IBM Plex Mono',monospace; font-size:15px; min-width:40px; text-align:center; }
+  .step-unit { font-size:10px; color:var(--muted); margin-left:3px; }
+  .remove-btn { background:none; border:none; color:var(--rust); cursor:pointer; display:flex; align-items:center; padding:0; font-size: 13px; }
+  .add-form { padding:12px 16px; border-top:1px solid var(--hairline); display:flex; flex-direction:column; gap:8px; }
+  .input { flex:1; background:rgba(0,0,0,0.2); border:1px solid var(--hairline); border-radius:8px; padding:8px 10px; color:var(--parchment); font-size:13px; outline:none; }
+  .add-btn { width:34px; height:34px; border-radius:8px; background:var(--amber); border:none; color:var(--bg); display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; font-size: 16px; }
+  .dashed-btn { width:100%; padding:12px; border-radius:14px; border:1px dashed var(--hairline-strong); background:transparent; color:var(--muted); font-size:13px; cursor:pointer; }
+  .week-header, .week-row { display:grid; grid-template-columns: 58px repeat(7,1fr) 30px; gap:4px; align-items:center; }
+  .week-header { margin-bottom:10px; padding-left:2px; }
+  .week-header .wd { text-align:center; }
+  .week-header .wd .name { font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; }
+  .week-header .wd .num { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--parchment); }
+  .week-header .wd.today .name { color: var(--amber); }
+  .week-header .wd.today .num { color: var(--amber-bright); font-weight:600; }
+  .week-sum { text-align:center; font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--muted); }
+  .week-row { padding:10px 12px; border-bottom:1px solid var(--hairline); }
+  .week-row:last-child { border-bottom:none; }
+  .week-label { font-size:12px; font-weight:500; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .week-cell-btn { background:transparent; border:none; cursor:pointer; display:flex; justify-content:center; align-items:center; padding:4px; }
+  .week-cell-btn:disabled { cursor: default; opacity: 0.4; }
+  .week-dot { width:9px; height:9px; border-radius:50%; border:1.4px solid var(--hairline-strong); }
+  .week-dot.on { background:var(--amber); border-color:var(--amber); }
+  .week-num { font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--muted-dark); }
+  .week-num.has { color:var(--parchment); }
+  .week-total { font-family:'IBM Plex Mono',monospace; font-size:11px; text-align:center; color:var(--amber); }
+  .month-dow { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; margin-bottom:6px; }
+  .month-dow div { text-align:center; font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); letter-spacing:0.05em; }
+  .month-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
+  .month-cell { aspect-ratio:1; border-radius:9px; border:1px solid var(--hairline); display:flex; align-items:flex-start; justify-content:flex-start; padding:5px; cursor:pointer; }
+  .month-cell .num { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--parchment); }
+  .month-cell.dim .num { color: var(--muted-dark); }
+  .month-cell.today { border-color:var(--amber-bright); border-width:1.5px; }
+  .month-cell:disabled { cursor:default; }
+  .error-msg { font-size:12px; color:var(--rust); margin-bottom:16px; }
+  .loading { min-height:100vh; display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; color:var(--muted); font-size:13px; letter-spacing:0.05em; }
+</style>
+</head>
+<body>
+<div id="app"><div class="loading">loading ledger…</div></div>
+
+<script>
+(function () {
+  'use strict';
+
+  var DEFAULT_SCHEMA = {
+    sections: [
+      {
+        id: 'habits',
+        title: 'Habits',
+        items: [
+          { id: 'coffee', label: 'Coffee', type: 'number', unit: 'cups' },
+          { id: 'cigarettes', label: 'Cigarettes', type: 'number' },
+          { id: 'bass', label: 'Bass practice', type: 'toggle' },
+          { id: 'assimil', label: 'Assimil', type: 'toggle' },
+          { id: 'lingvist', label: 'Lingvist', type: 'toggle' },
+          { id: 'reading', label: 'Reading', type: 'number', unit: 'pages' },
+          { id: 'workout', label: 'Workout', type: 'toggle' }
+        ]
+      },
+      {
+        id: 'supplements',
+        title: 'Supplements',
+        items: [
+          { id: 'probiotics', label: 'Probiotics', type: 'toggle' },
+          { id: 'vitaminC', label: 'Vitamin C', type: 'toggle' },
+          { id: 'vitaminD', label: 'Vitamin D', type: 'toggle' },
+          { id: 'zinc', label: 'Zinc', type: 'toggle' },
+          { id: 'fishOil', label: 'Fish oil', type: 'toggle' }
+        ]
+      }
+    ]
+  };
+
+  var SCHEMA_KEY = 'habitledger.schema.v1';
+  var ENTRIES_KEY = 'habitledger.entries.v1';
+
+  function loadJSON(key, fallback) {
+    try {
+      var raw = localStorage.getItem(key);
+      if (raw) return JSON.parse(raw);
+    } catch (e) {}
+    return fallback;
+  }
+  function saveJSON(key, value) {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  var state = {
+    schema: loadJSON(SCHEMA_KEY, DEFAULT_SCHEMA),
+    entries: loadJSON(ENTRIES_KEY, {}),
+    currentDate: new Date(),
+    viewMode: 'day',
+    editMode: false,
+    addingSection: false,
+    newSectionTitle: '',
+    draftItem: {},
+    error: null
+  };
+
+  function saveSchema() {
+    var ok = saveJSON(SCHEMA_KEY, state.schema);
+    state.error = ok ? null : 'Could not save that change.';
+  }
+  function saveEntries() {
+    var ok = saveJSON(ENTRIES_KEY, state.entries);
+    state.error = ok ? null : 'Could not save that change.';
+  }
+
+  function esc(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function pad2(n) { return String(n).padStart(2, '0'); }
+  function dateKey(d) { return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()); }
+  function addDays(d, n) { var x = new Date(d); x.setDate(x.getDate() + n); return x; }
+  function addMonths(d, n) { var x = new Date(d); x.setMonth(x.getMonth() + n); return x; }
+  function startOfWeek(d) {
+    var x = new Date(d);
+    var day = x.getDay();
+    var diff = (day + 6) % 7;
+    x.setDate(x.getDate() - diff);
+    x.setHours(0, 0, 0, 0);
+    return x;
+  }
+  function isSameDay(a, b) { return dateKey(a) === dateKey(b); }
+  function isSameMonth(a, b) { return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth(); }
+  function displayDate(d, t) {
+    if (isSameDay(d, t)) return 'Today · ' + d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    if (isSameDay(d, addDays(t, -1))) return 'Yesterday · ' + d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    return d.toLocaleDateString('en-US', { weekday: 'short' }) + ' · ' + d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  }
+  function monthMatrix(d) {
+    var first = new Date(d.getFullYear(), d.getMonth(), 1);
+    var start = startOfWeek(first);
+    var weeks = [];
+    var cur = start;
+    for (var w = 0; w < 6; w++) {
+      var week = [];
+      for (var i = 0; i < 7; i++) { week.push(cur); cur = addDays(cur, 1); }
+      weeks.push(week);
+    }
+    while (weeks.length > 4 && weeks[weeks.length - 1].every(function (day) { return !isSameMonth(day, d); })) {
+      weeks.pop();
+    }
+    return weeks;
+  }
+
+  function today() { return new Date(); }
+  function dayEntry() { return state.entries[dateKey(state.currentDate)] || {}; }
+  function allItems() {
+    var items = [];
+    state.schema.sections.forEach(function (s) { items = items.concat(s.items); });
+    return items;
+  }
+  function completionRatio(d) {
+    var e = state.entries[dateKey(d)];
+    var items = allItems();
+    if (!e || items.length === 0) return 0;
+    var filled = 0;
+    items.forEach(function (it) {
+      if (it.type === 'toggle' && e[it.id]) filled++;
+      if (it.type === 'number' && Number(e[it.id]) > 0) filled++;
+    });
+    return filled / items.length;
+  }
+
+  // ---- actions (exposed on window for inline handlers) ----
+  window.updateValue = function (itemId, value) {
+    var k = dateKey(state.currentDate);
+    state.entries[k] = Object.assign({}, state.entries[k] || {}, {});
+    state.entries[k][itemId] = value;
+    saveEntries();
+    render();
+  };
+  window.toggleItem = function (itemId) {
+    var cur = dayEntry()[itemId];
+    window.updateValue(itemId, !cur);
+  };
+  window.stepNumber = function (itemId, delta) {
+    var cur = Number(dayEntry()[itemId]) || 0;
+    window.updateValue(itemId, Math.max(0, cur + delta));
+  };
+  window.setViewMode = function (mode) { state.viewMode = mode; state.editMode = false; render(); };
+  window.goPrev = function () {
+    if (state.viewMode === 'day') state.currentDate = addDays(state.currentDate, -1);
+    else if (state.viewMode === 'week') state.currentDate = addDays(state.currentDate, -7);
+    else state.currentDate = addMonths(state.currentDate, -1);
+    render();
+  };
+  window.goNext = function () {
+    var t = today();
+    if (state.viewMode === 'day') { if (!isSameDay(state.currentDate, t)) state.currentDate = addDays(state.currentDate, 1); }
+    else if (state.viewMode === 'week') { if (!isSameDay(startOfWeek(state.currentDate), startOfWeek(t))) state.currentDate = addDays(state.currentDate, 7); }
+    else { if (!isSameMonth(state.currentDate, t)) state.currentDate = addMonths(state.currentDate, 1); }
+    render();
+  };
+  window.jumpToday = function () { state.currentDate = new Date(); render(); };
+  window.setCurrentDateYMD = function (y, m, d) { state.currentDate = new Date(y, m, d); render(); };
+  window.jumpToDayFromGrid = function (dstr) {
+    var parts = dstr.split('-').map(Number);
+    var d = new Date(parts[0], parts[1] - 1, parts[2]);
+    if (d > today()) return;
+    state.currentDate = d;
+    state.viewMode = 'day';
+    render();
+  };
+  window.toggleEdit = function () { state.editMode = !state.editMode; render(); };
+  window.removeItem = function (sectionId, itemId) {
+    state.schema.sections = state.schema.sections.map(function (s) {
+      if (s.id !== sectionId) return s;
+      return Object.assign({}, s, { items: s.items.filter(function (i) { return i.id !== itemId; }) });
+    });
+    saveSchema(); render();
+  };
+  window.removeSection = function (sectionId) {
+    state.schema.sections = state.schema.sections.filter(function (s) { return s.id !== sectionId; });
+    saveSchema(); render();
+  };
+  window.updateDraftLabel = function (sectionId, val) {
+    state.draftItem[sectionId] = Object.assign({ type: 'toggle' }, state.draftItem[sectionId], { label: val });
+  };
+  window.updateDraftType = function (sectionId, val) {
+    state.draftItem[sectionId] = Object.assign({ label: '' }, state.draftItem[sectionId], { type: val });
+    render();
+  };
+  window.updateDraftUnit = function (sectionId, val) {
+    state.draftItem[sectionId] = Object.assign({}, state.draftItem[sectionId], { unit: val });
+  };
+  window.addItem = function (sectionId) {
+    var draft = state.draftItem[sectionId];
+    if (!draft || !draft.label || !draft.label.trim()) return;
+    var id = draft.label.trim().toLowerCase().replace(/[^a-z0-9]+/g, '_') + '_' + Date.now().toString(36);
+    var item = { id: id, label: draft.label.trim(), type: draft.type || 'toggle' };
+    if (item.type === 'number' && draft.unit) item.unit = draft.unit.trim();
+    state.schema.sections = state.schema.sections.map(function (s) {
+      if (s.id !== sectionId) return s;
+      return Object.assign({}, s, { items: s.items.concat([item]) });
+    });
+    saveSchema();
+    state.draftItem[sectionId] = { label: '', type: 'toggle', unit: '' };
+    render();
+  };
+  window.toggleAddingSection = function () { state.addingSection = !state.addingSection; render(); };
+  window.updateNewSectionTitle = function (val) { state.newSectionTitle = val; };
+  window.addSection = function () {
+    if (!state.newSectionTitle.trim()) return;
+    var id = state.newSectionTitle.trim().toLowerCase().replace(/[^a-z0-9]+/g, '_') + '_' + Date.now().toString(36);
+    state.schema.sections = state.schema.sections.concat([{ id: id, title: state.newSectionTitle.trim(), items: [] }]);
+    saveSchema();
+    state.newSectionTitle = '';
+    state.addingSection = false;
+    render();
+  };
+
+  function render() {
+    var app = document.getElementById('app');
+    var t = today();
+    var dk = dateKey(state.currentDate);
+    var de = dayEntry();
+    var isTodaySel = isSameDay(state.currentDate, t);
+    var isCurWeek = isSameDay(startOfWeek(state.currentDate), startOfWeek(t));
+    var isCurMonth = isSameMonth(state.currentDate, t);
+    var nextDisabled = state.viewMode === 'day' ? isTodaySel : state.viewMode === 'week' ? isCurWeek : isCurMonth;
+    var showJump = !nextDisabled;
+
+    var eyebrow = 'Daily Ledger';
+    var title = displayDate(state.currentDate, t);
+    if (state.viewMode === 'week') {
+      var ws = startOfWeek(state.currentDate);
+      var we = addDays(ws, 6);
+      eyebrow = 'Weekly Ledger';
+      title = ws.getMonth() === we.getMonth()
+        ? ws.toLocaleDateString('en-US', { month: 'short' }) + ' ' + ws.getDate() + '–' + we.getDate()
+        : ws.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' – ' + we.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    } else if (state.viewMode === 'month') {
+      eyebrow = 'Monthly Ledger';
+      title = state.currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    }
+
+    var html = '<div class="wrap">';
+    html += '<div class="header-row"><div><div class="eyebrow">' + eyebrow + '</div><div class="title">' + esc(title) + '</div></div>';
+    if (state.viewMode === 'day') {
+      html += '<button class="btn-pill ' + (state.editMode ? 'active' : '') + '" onclick="toggleEdit()">' + (state.editMode ? '✓ Done' : '✎ Customize') + '</button>';
+    }
+    html += '</div>';
+
+    html += '<div class="tabs">';
+    ['day', 'week', 'month'].forEach(function (m) {
+      html += '<button class="tab ' + (state.viewMode === m ? 'active' : '') + '" onclick="setViewMode(\'' + m + '\')">' + m + '</button>';
+    });
+    html += '</div>';
+
+    html += '<div class="nav-row">';
+    html += '<button class="nav-btn" onclick="goPrev()">‹</button>';
+    html += '<button class="nav-btn" onclick="goNext()" ' + (nextDisabled ? 'disabled' : '') + '>›</button>';
+    if (showJump) html += '<button class="jump" onclick="jumpToday()">JUMP TO TODAY</button>';
+    html += '</div>';
+
+    if (state.viewMode === 'day') {
+      html += '<div class="strip">';
+      for (var i = 13; i >= 0; i--) {
+        var d = addDays(t, -i);
+        var ratio = completionRatio(d);
+        var sel = dateKey(d) === dk;
+        var h = Math.max(ratio * 100, 8);
+        var bg = sel ? 'var(--amber-bright)' : (ratio > 0 ? 'rgba(198,139,62,0.45)' : 'rgba(143,160,147,0.18)');
+        var border = sel ? '1px solid var(--amber-bright)' : 'none';
+        html += '<button class="strip-bar-btn" onclick="setCurrentDateYMD(' + d.getFullYear() + ',' + d.getMonth() + ',' + d.getDate() + ')" title="' + esc(displayDate(d, t)) + '">' +
+          '<div class="strip-bar" style="height:' + h + '%;background:' + bg + ';border:' + border + ';"></div></button>';
+      }
+      html += '</div>';
+    }
+
+    if (state.error) html += '<div class="error-msg">' + esc(state.error) + '</div>';
+
+    if (state.viewMode === 'day') {
+      state.schema.sections.forEach(function (section) {
+        html += '<div class="section"><div class="section-head"><span>' + esc(section.title) + '</span>';
+        if (state.editMode) html += '<button class="remove-btn" onclick="removeSection(\'' + section.id + '\')">✕</button>';
+        html += '</div><div class="card">';
+        section.items.forEach(function (item) {
+          var val = de[item.id];
+          html += '<div class="item-row"><div style="display:flex;align-items:center;gap:8px;">';
+          if (state.editMode) html += '<button class="remove-btn" onclick="removeItem(\'' + section.id + '\',\'' + item.id + '\')">✕</button>';
+          html += '<span class="item-label">' + esc(item.label) + '</span></div>';
+          if (item.type === 'toggle') {
+            html += '<button class="toggle ' + (val ? 'on' : '') + '" onclick="toggleItem(\'' + item.id + '\')"><div class="thumb"></div></button>';
+          } else {
+            var unit = item.unit ? '<span class="step-unit">' + esc(item.unit) + '</span>' : '';
+            html += '<div class="stepper"><button class="step-btn" onclick="stepNumber(\'' + item.id + '\',-1)">–</button>' +
+              '<div class="step-val">' + (Number(val) || 0) + unit + '</div>' +
+              '<button class="step-btn" onclick="stepNumber(\'' + item.id + '\',1)">+</button></div>';
+          }
+          html += '</div>';
+        });
+        if (state.editMode) {
+          var draft = state.draftItem[section.id] || { label: '', type: 'toggle', unit: '' };
+          html += '<div class="add-form">' +
+            '<input class="input" placeholder="New habit name" value="' + esc(draft.label || '') + '" oninput="updateDraftLabel(\'' + section.id + '\',this.value)" />' +
+            '<div style="display:flex;gap:6px;align-items:center;">' +
+            '<select class="input" style="flex:0 0 110px;" onchange="updateDraftType(\'' + section.id + '\',this.value)">' +
+            '<option value="toggle"' + (draft.type === 'toggle' ? ' selected' : '') + '>Yes / no</option>' +
+            '<option value="number"' + (draft.type === 'number' ? ' selected' : '') + '>Number</option>' +
+            '</select>';
+          if (draft.type === 'number') {
+            html += '<input class="input" placeholder="unit (pages, min…)" value="' + esc(draft.unit || '') + '" oninput="updateDraftUnit(\'' + section.id + '\',this.value)" />';
+          }
+          html += '<button class="add-btn" onclick="addItem(\'' + section.id + '\')">+</button></div></div>';
+        }
+        html += '</div></div>';
+      });
+
+      if (state.editMode) {
+        if (state.addingSection) {
+          html += '<div style="display:flex;gap:6px;"><input class="input" placeholder="Section name" value="' + esc(state.newSectionTitle) + '" oninput="updateNewSectionTitle(this.value)" />' +
+            '<button class="add-btn" onclick="addSection()">+</button></div>';
+        } else {
+          html += '<button class="dashed-btn" onclick="toggleAddingSection()">+ Add section</button>';
+        }
+      }
+    }
+
+    if (state.viewMode === 'week') {
+      var weekDays = [];
+      var wStart = startOfWeek(state.currentDate);
+      for (var wi = 0; wi < 7; wi++) weekDays.push(addDays(wStart, wi));
+
+      html += '<div class="week-header"><div></div>';
+      weekDays.forEach(function (d) {
+        var isT = isSameDay(d, t);
+        html += '<div class="wd ' + (isT ? 'today' : '') + '"><div class="name">' + d.toLocaleDateString('en-US', { weekday: 'narrow' }) + '</div><div class="num">' + d.getDate() + '</div></div>';
+      });
+      html += '<div class="week-sum">Σ</div></div>';
+
+      state.schema.sections.forEach(function (section) {
+        html += '<div class="section"><div class="section-head"><span>' + esc(section.title) + '</span></div><div class="card">';
+        section.items.forEach(function (item) {
+          var weekly = weekDays.map(function (d) { var e = state.entries[dateKey(d)]; return e ? e[item.id] : undefined; });
+          var total = item.type === 'toggle'
+            ? weekly.filter(Boolean).length
+            : weekly.reduce(function (s, v) { return s + (Number(v) || 0); }, 0);
+          html += '<div class="week-row"><div class="week-label">' + esc(item.label) + '</div>';
+          weekDays.forEach(function (d) {
+            var e = state.entries[dateKey(d)];
+            var v = e ? e[item.id] : undefined;
+            var isFuture = d > t;
+            var dk2 = dateKey(d);
+            if (item.type === 'toggle') {
+              html += '<button class="week-cell-btn" ' + (isFuture ? 'disabled' : '') + ' onclick="jumpToDayFromGrid(\'' + dk2 + '\')"><div class="week-dot ' + (v ? 'on' : '') + '"></div></button>';
+            } else {
+              html += '<button class="week-cell-btn" ' + (isFuture ? 'disabled' : '') + ' onclick="jumpToDayFromGrid(\'' + dk2 + '\')"><span class="week-num ' + (Number(v) > 0 ? 'has' : '') + '">' + (Number(v) > 0 ? v : '–') + '</span></button>';
+            }
+          });
+          html += '<div class="week-total">' + total + '</div></div>';
+        });
+        html += '</div></div>';
+      });
+    }
+
+    if (state.viewMode === 'month') {
+      var weeks = monthMatrix(state.currentDate);
+      html += '<div class="month-dow">';
+      ['M', 'T', 'W', 'T', 'F', 'S', 'S'].forEach(function (l) { html += '<div>' + l + '</div>'; });
+      html += '</div><div class="month-grid">';
+      weeks.forEach(function (week) {
+        week.forEach(function (d) {
+          var ratio = completionRatio(d);
+          var inMonth = isSameMonth(d, state.currentDate);
+          var isT = isSameDay(d, t);
+          var isFuture = d > t;
+          var dk2 = dateKey(d);
+          var bg = ratio > 0 ? 'rgba(198,139,62,' + (0.12 + ratio * 0.55) + ')' : 'transparent';
+          html += '<button class="month-cell ' + (inMonth ? '' : 'dim') + ' ' + (isT ? 'today' : '') + '" style="background:' + bg + ';" ' + (isFuture ? 'disabled' : '') + ' onclick="jumpToDayFromGrid(\'' + dk2 + '\')"><span class="num">' + d.getDate() + '</span></button>';
+        });
+      });
+      html += '</div>';
+    }
+
+    html += '</div>';
+    app.innerHTML = html;
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>
